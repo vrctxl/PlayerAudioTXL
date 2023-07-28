@@ -1,0 +1,21 @@
+{
+  "name": "com.texelsaur.playeraudio",
+  "displayName": "TXL - PlayerAudioTXL",
+  "author": {
+  	"name": "Texelsaur",
+  	"email": "",
+  	"url": "https://texelsaurus.com"
+  },
+  "version": "1.0.0",
+  "description": "Audio zone system for overriding player voice and avatar audio.  Comes with multiple microphone prefabs.",
+  "gitDependencies": {},
+  "vpmDependencies": {
+    "com.vrchat.udonsharp": "^1.1.8",
+	"com.texelsaur.common": "^1.0.0"
+  },
+  "legacyFolders": {
+  	"Assets\\Texel\\Audio\\Audio Override": "b0df346416a5628489dd04032b974305",
+  	"Assets\\Texel\\Editor\\Audio": "ff6e7ffb53bc21e4884d77a5ccee2d44"
+  },
+  "legacyFiles": {}
+}
