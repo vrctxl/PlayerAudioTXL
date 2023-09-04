@@ -2,28 +2,28 @@
   "name": "com.texelsaur.playeraudio",
   "displayName": "TXL - PlayerAudioTXL",
   "author": {
-  	"name": "Texelsaur",
-  	"email": "",
-  	"url": "https://texelsaurus.com"
+    "name": "Texelsaur",
+    "email": "",
+    "url": "https://texelsaurus.com"
   },
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Audio zone system for overriding player voice and avatar audio.  Comes with multiple microphone prefabs.",
   "gitDependencies": {},
   "vpmDependencies": {
     "com.vrchat.udonsharp": "^1.1.8",
-	"com.texelsaur.common": "^1.0.0",
-	"com.texelsaur.misc": "^1.0.0"
+    "com.texelsaur.common": "^1.0.0",
+    "com.texelsaur.misc": "^1.0.0"
   },
   "legacyFolders": {
-  	"Assets\\Texel\\Audio\\Audio Override": "b0df346416a5628489dd04032b974305",
-  	"Assets\\Texel\\Editor\\Audio": "ff6e7ffb53bc21e4884d77a5ccee2d44",
-  	"Assets\\Texel\\Common": "4b7c604a04100044fa7a6bc20b864417",
-  	"Assets\\Texel\\Editor\\Common\\Zone": "02b21299875c99746bb1cb275d975b0f",
-  	"Assets\\Texel\\General": "81f95970275325444934d9b5af7257dc",
-  	"Assets\\Texel\\Editor\\Misc": "687c3981dc8a8e440b2f42e3950982c7"
+    "Assets\\Texel\\Audio\\Audio Override": "b0df346416a5628489dd04032b974305",
+    "Assets\\Texel\\Editor\\Audio": "ff6e7ffb53bc21e4884d77a5ccee2d44",
+    "Assets\\Texel\\Common": "4b7c604a04100044fa7a6bc20b864417",
+    "Assets\\Texel\\Editor\\Common\\Zone": "02b21299875c99746bb1cb275d975b0f",
+    "Assets\\Texel\\General": "81f95970275325444934d9b5af7257dc",
+    "Assets\\Texel\\Editor\\Misc": "687c3981dc8a8e440b2f42e3950982c7"
   },
   "legacyFiles": {
-  	"Assets\\Texel\\Editor\\Common\\EditorTools.cs": "bf2c707af7283de498e934204c342c06",
-  	"Assets\\Texel\\Video\\Textures\\UI\\ui_atlas.png": "a1d53f153b56ac4ca4eaa6ba39a8ee4"
+    "Assets\\Texel\\Editor\\Common\\EditorTools.cs": "bf2c707af7283de498e934204c342c06",
+    "Assets\\Texel\\Video\\Textures\\UI\\ui_atlas.png": "a1d53f153b56ac4ca4eaa6ba39a8ee4"
   }
 }
