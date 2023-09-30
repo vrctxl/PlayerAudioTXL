@@ -6,11 +6,10 @@
     "email": "",
     "url": "https://texelsaurus.com"
   },
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Audio zone system for overriding player voice and avatar audio.  Comes with multiple microphone prefabs.",
   "gitDependencies": {},
   "vpmDependencies": {
-    "com.vrchat.udonsharp": "^1.1.8",
     "com.texelsaur.common": "^1.0.0",
     "com.texelsaur.misc": "^1.0.0"
   },
