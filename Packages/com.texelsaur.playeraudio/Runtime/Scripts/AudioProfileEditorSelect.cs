@@ -26,6 +26,11 @@ namespace Texel
         float defaultVoiceVolumetric;
         bool defaultVoiceLowpass;
 
+        float defaultAvatarGain;
+        float defaultAvatarFar;
+        float defaultAvatarNear;
+        float defaultAvatarVolumetric;
+
         bool profileChanged = false;
 
         void Start()
@@ -47,6 +52,11 @@ namespace Texel
             defaultVoiceNear = profile.voiceNear;
             defaultVoiceVolumetric = profile.voiceVolumetric;
             defaultVoiceLowpass = profile.voiceLowpass;
+
+            defaultAvatarGain = profile.avatarGain;
+            defaultAvatarFar = profile.avatarFar;
+            defaultAvatarNear = profile.avatarNear;
+            defaultAvatarVolumetric = profile.avatarVolumetric;
         }
 
         public void _RestoreVoiceDefault()
@@ -71,6 +81,28 @@ namespace Texel
             _SetVoiceNear(0);
             _SetVoiceVolumetric(0);
             _SetVoiceLowPass(true);
+        }
+
+        public void _RestoreAvatarDefault()
+        {
+            if (!profile)
+                return;
+
+            _SetAvatarGain(defaultAvatarGain);
+            _SetAvatarFar(defaultAvatarFar);
+            _SetAvatarNear(defaultAvatarNear);
+            _SetAvatarVolumetric(defaultAvatarVolumetric);
+        }
+
+        public void _RestoreAvatarVRC()
+        {
+            if (!profile)
+                return;
+
+            _SetAvatarGain(10);
+            _SetAvatarFar(40);
+            _SetAvatarNear(0);
+            _SetAvatarVolumetric(0);
         }
 
         public void _SetVoiceGain(float val)
@@ -110,6 +142,39 @@ namespace Texel
         {
             if (_CheckDiff(profile.voiceLowpass ? 1 : 0, val ? 1 : 0))
                 profile.voiceLowpass = val;
+        }
+
+        public void _SetAvatarGain(float val)
+        {
+            val = Mathf.Clamp(val, 0, 10);
+            if (_CheckDiff(profile.avatarGain, val))
+                profile.avatarGain = val;
+        }
+
+        public void _SetAvatarFar(float val)
+        {
+            val = Mathf.Clamp(val, 0, 1000000);
+            if (_CheckDiff(profile.avatarFar, val))
+            {
+                profile.avatarFar = val;
+
+                _SetAvatarNear(profile.avatarNear);
+                _SetAvatarVolumetric(profile.avatarVolumetric);
+            }
+        }
+
+        public void _SetAvatarNear(float val)
+        {
+            val = Mathf.Clamp(val, 0, Mathf.Min(1000000, profile.avatarFar));
+            if (_CheckDiff(profile.avatarNear, val))
+                profile.avatarNear = val;
+        }
+
+        public void _SetAvatarVolumetric(float val)
+        {
+            val = Mathf.Clamp(val, 0, Mathf.Min(1000000, profile.avatarFar));
+            if (_CheckDiff(profile.avatarVolumetric, val))
+                profile.avatarVolumetric = val;
         }
 
         bool _CheckDiff(float val1, float val2)
