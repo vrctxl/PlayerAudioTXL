@@ -64,6 +64,8 @@ namespace Texel
 
         public void _Register(AudioOverrideManager overrideManager, int zoneId)
         {
+            DebugLog($"Zone {gameObject.name} registered with id {zoneId}");
+
             manager = overrideManager;
             managedZoneId = zoneId;
             hasManager = Utilities.IsValid(manager);
@@ -310,7 +312,7 @@ namespace Texel
             if (!Utilities.IsValid(player))
                 return;
 
-            DebugLog($"Add player {player.displayName} to zone {managedZoneId} override");
+            DebugLog($"Add player {player.displayName} to zone {managedZoneId} override with {settings.name}");
 
             if (!player.IsValid())
             {
@@ -322,13 +324,17 @@ namespace Texel
             for (int i = 0; i <= maxOverrideIndex; i++)
             {
                 if (playerOverrides[i] == id)
+                {
+                    DebugLog($"Override aliready active at index {i}");
                     return;
+                }
             }
 
             maxOverrideIndex += 1;
             playerOverrides[maxOverrideIndex] = id;
             playerOverrideSettings[maxOverrideIndex] = settings;
             playerOverrideEnabled[maxOverrideIndex] = enabled;
+            DebugLog($"Saving override to index {maxOverrideIndex}");
 
             if (hasManager)
                 manager._RebuildLocal();

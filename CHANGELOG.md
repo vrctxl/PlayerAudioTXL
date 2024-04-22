@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.0.4] - 04-22-24
+
+- Fix basic global microphon prefab misconfigured default setting
+
 ## [1.0.3] - 01-24-24
 
 - Added Audio Profile Editor prefab to change audio profiles settings at runtime
