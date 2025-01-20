@@ -156,7 +156,7 @@ namespace Texel
             for (int i = 0; i < overrideZones.Length; i++)
             {
                 AudioOverrideZone zone = overrideZones[i];
-                if (zone.membership._ContainsPlayer(player))
+                if (zone.zoneEnabled && zone.membership._ContainsPlayer(player))
                     return zone;
             }
 

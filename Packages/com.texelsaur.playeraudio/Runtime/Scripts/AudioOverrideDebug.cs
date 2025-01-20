@@ -117,6 +117,8 @@ namespace Texel
         int _AddZoneToData(AudioOverrideZone zone, int index)
         {
             zoneNames[index] = zone.name;
+            if (!zone.zoneEnabled)
+                zoneNames[index] += " (X)";
             if (zone.membership)
                 zoneNames[index] += $" (M={zone.membership._PlayerCount()})";
             zoneProfiles[index] = "";

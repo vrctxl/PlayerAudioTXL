@@ -17,6 +17,7 @@ namespace Texel
 
         SerializedProperty membershipProperty;
         SerializedProperty zoneTriggerProperty;
+        SerializedProperty enableZoneProperty;
 
         SerializedProperty enableLocalProperty;
         SerializedProperty localSettingsProperty;
@@ -35,6 +36,7 @@ namespace Texel
         {
             membershipProperty = serializedObject.FindProperty(nameof(AudioOverrideZone.membership));
             zoneTriggerProperty = serializedObject.FindProperty(nameof(AudioOverrideZone.zone));
+            enableZoneProperty = serializedObject.FindProperty(nameof(AudioOverrideZone.zoneEnabled));
 
             enableLocalProperty = serializedObject.FindProperty(nameof(AudioOverrideZone.localZoneEnabled));
             localSettingsProperty = serializedObject.FindProperty(nameof(AudioOverrideZone.localZoneSettings));
@@ -57,6 +59,7 @@ namespace Texel
 
             EditorGUILayout.PropertyField(membershipProperty, new GUIContent("Membership", "ZoneMembership component to track membership of players within this zone.  Can be a component on this same object."));
             EditorGUILayout.PropertyField(zoneTriggerProperty, new GUIContent("Zone", "Zone trigger that defines volume of this override zone.  Can be a component on this same object with associated trigger collider."));
+            EditorGUILayout.PropertyField(enableZoneProperty, new GUIContent("Enabled", "Whether the zone as a whole is active and used in audio calculations."));
 
             EditorGUILayout.Space();
             EditorGUILayout.LabelField("Local Zone", EditorStyles.boldLabel);

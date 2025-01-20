@@ -13,6 +13,7 @@ namespace Texel
     {
         public ZoneMembership membership;
         public ZoneTrigger zone;
+        public bool zoneEnabled = true;
 
         public AudioOverrideSettings localZoneSettings;
         public bool localZoneEnabled = true;
@@ -74,6 +75,21 @@ namespace Texel
         public int _ZoneId()
         {
             return managedZoneId;
+        }
+
+        public void _SetZoneEnabled(bool state)
+        {
+            if (zoneEnabled != state)
+            {
+                zoneEnabled = state;
+                DebugLog($"Set zone {gameObject.name} enabled={state}");
+
+                if (hasManager)
+                {
+                    manager._RebuildLocal();
+                    manager._UpdateZoneData();
+                }
+            }
         }
 
         public void _SetLocalActive(bool state)
@@ -241,6 +257,8 @@ namespace Texel
 
         public bool _ContainsPlayer(VRCPlayerApi player)
         {
+            if (!zoneEnabled)
+                return false;
             if (!hasMembership)
                 return true;
 
@@ -249,6 +267,9 @@ namespace Texel
 
         public bool _Apply(VRCPlayerApi player)
         {
+            if (!zoneEnabled)
+                return false;
+
             AudioOverrideSettings overrideSettings = _GetPlayerOverride(player);
             if (Utilities.IsValid(overrideSettings))
             {

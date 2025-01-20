@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.0.5] - 01-20-25
+
+- Added zoneEnabled field to Audio Override Zones, which acts as overall active property
+- Added _SetZoneEnabled method to AudioOverrideZone
+
 ## [1.0.4] - 04-22-24
 
 - Fix basic global microphon prefab misconfigured default setting
