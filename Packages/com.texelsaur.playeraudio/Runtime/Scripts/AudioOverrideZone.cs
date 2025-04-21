@@ -61,6 +61,9 @@ namespace Texel
             playerOverrides = new int[100];
             playerOverrideSettings = new AudioOverrideSettings[100];
             playerOverrideEnabled = new bool[100];
+
+            if (zone && zone._PlayerPositionInZone(Networking.LocalPlayer))
+                _PlayerEnter(Networking.LocalPlayer);
         }
 
         public void _Register(AudioOverrideManager overrideManager, int zoneId)
@@ -233,24 +236,45 @@ namespace Texel
             }
         }
 
+        public override void OnPlayerJoined(VRCPlayerApi player)
+        {
+            if (zone && zone._PlayerPositionInZone(player))
+                _PlayerEnter(player);
+        }
+
+        public override void OnPlayerLeft(VRCPlayerApi player)
+        {
+            _PlayerLeave(playerArg, false);
+        }
+
         public void _PlayerEnter()
         {
+            _PlayerEnter(playerArg);
+        }
+
+        void _PlayerEnter(VRCPlayerApi player)
+        {
             if (hasMembership)
-                membership._AddPlayer(playerArg);
+                membership._AddPlayer(player);
             if (hasManager)
             {
-                manager._PlayerEnterZone(this, playerArg);
+                manager._PlayerEnterZone(this, player);
                 manager._UpdateZoneData();
             }
         }
 
         public void _PlayerLeave()
         {
+            _PlayerLeave(playerArg, true);
+        }
+
+        void _PlayerLeave(VRCPlayerApi player, bool shouldUpdate)
+        {
             if (hasMembership)
-                membership._RemovePlayer(playerArg);
-            if (hasManager)
+                membership._RemovePlayer(player);
+            if (hasManager && shouldUpdate)
             {
-                manager._PlayerLeaveZone(this, playerArg);
+                manager._PlayerLeaveZone(this, player);
                 manager._UpdateZoneData();
             }
         }

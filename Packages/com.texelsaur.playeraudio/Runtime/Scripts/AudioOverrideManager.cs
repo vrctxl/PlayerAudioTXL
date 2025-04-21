@@ -20,7 +20,8 @@ namespace Texel
         int zoneCount = 0;
         VRCPlayerApi[] playerBuffer = new VRCPlayerApi[100];
 
-        AudioOverrideZone cachedLocalZone;
+        AudioOverrideZone[] cachedLocalZoneStack;
+        int cachedLocalZoneCount = 0;
         bool rebuildLocalQueued = false;
 
         void Start()
@@ -31,6 +32,7 @@ namespace Texel
             if (Utilities.IsValid(overrideZones))
                 zoneCount = overrideZones.Length;
 
+            cachedLocalZoneStack = new AudioOverrideZone[zoneCount];
             for (int i = 0; i < overrideZones.Length; i++)
             {
                 if (Utilities.IsValid(overrideZones[i]))
@@ -70,7 +72,7 @@ namespace Texel
             if (player.isLocal)
                 _RebuildLocal();
             else
-                _RebuildPlayer(player, cachedLocalZone);
+                _RebuildPlayer(player, cachedLocalZoneStack, cachedLocalZoneCount);
         }
 
         public void _PlayerLeaveZone(AudioOverrideZone zone, VRCPlayerApi player)
@@ -83,7 +85,7 @@ namespace Texel
             if (player.isLocal)
                 _RebuildLocal();
             else
-                _RebuildPlayer(player, cachedLocalZone);
+                _RebuildPlayer(player, cachedLocalZoneStack, cachedLocalZoneCount);
         }
 
         public void _RebuildLocal()
@@ -105,22 +107,15 @@ namespace Texel
             if (!Utilities.IsValid(player))
                 return;
 
-            cachedLocalZone = _FindActiveZone(player);
-            //if (!Utilities.IsValid(cachedLocalZone))
-            //    Debug.Log("Player not in zone");
-            //else
-            //    Debug.Log($"Player in zone {cachedLocalZone._ZoneId()}");
-
-            if (!Utilities.IsValid(cachedLocalZone))
-                cachedLocalZone = defaultZone;
+            _RebuildZoneCache(player);
 
             if (debugState)
-                debugState._UpdateLocal(cachedLocalZone);
+                debugState._UpdateLocal(cachedLocalZoneCount > 0 ? cachedLocalZoneStack[0] : defaultZone);
 
-            _RebuildAll(player, cachedLocalZone);
+            _RebuildAll(player, cachedLocalZoneStack, cachedLocalZoneCount);
         }
 
-        void _RebuildAll(VRCPlayerApi localPlayer, AudioOverrideZone localZone)
+        void _RebuildAll(VRCPlayerApi localPlayer, AudioOverrideZone[] localZoneStack, int stackCount)
         {
             int playerCount = VRCPlayerApi.GetPlayerCount();
             playerBuffer = VRCPlayerApi.GetPlayers(playerBuffer);
@@ -131,18 +126,21 @@ namespace Texel
                 if (player == localPlayer)
                     continue;
 
-                _RebuildPlayer(player, localZone);
+                _RebuildPlayer(player, localZoneStack, stackCount);
             }
         }
 
-        void _RebuildPlayer(VRCPlayerApi player, AudioOverrideZone localZone)
+        void _RebuildPlayer(VRCPlayerApi player, AudioOverrideZone[] localZoneStack, int stackCount)
         {
-            //Debug.Log($"Try Rebuild player {player.displayName} from {localZone.name}");
-            if (localZone._Apply(player))
-                return;
+            for (int i = 0; i < stackCount; i++)
+            {
+                //Debug.Log($"Try Rebuild player {player.displayName} from {localZone.name}");
+                if (localZoneStack[i]._Apply(player))
+                    return;
+            }
 
             //Debug.Log($"Try Rebuild player {player.displayName} from {defaultZone.name}");
-            if (defaultZone != localZone && defaultZone._Apply(player))
+            if (defaultZone && defaultZone._Apply(player))
                 return;
 
             _ResetSettings(player);
@@ -161,6 +159,21 @@ namespace Texel
             }
 
             return null;
+        }
+
+        void _RebuildZoneCache(VRCPlayerApi player)
+        {
+            cachedLocalZoneCount = 0;
+
+            for (int i = 0; i < overrideZones.Length; i++)
+            {
+                AudioOverrideZone zone = overrideZones[i];
+                if (zone.zoneEnabled && zone.membership._ContainsPlayer(player))
+                {
+                    cachedLocalZoneStack[cachedLocalZoneCount] = zone;
+                    cachedLocalZoneCount += 1;
+                }
+            }
         }
 
         void _ResetSettings(VRCPlayerApi player)

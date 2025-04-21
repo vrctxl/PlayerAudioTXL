@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.0.6] - 04-21-25
+
+- AudioOverrideManager will now consider the full stack of zones the local player is in
+- AudioOverrideZone will recognize players in a zone if they join the world inside the zone
+
 ## [1.0.5] - 01-20-25
 
 - Added zoneEnabled field to Audio Override Zones, which acts as overall active property
